@@ -1,13 +1,12 @@
 from flask import Flask
-import requests
+import query_tfl
 
 app = Flask(__name__)
-apiKeyCode = {}
+query_tfl.main()
 
 @app.route('/')
 def hello_world():
-    res = requests.get('https://api.tfl.gov.uk/Line/Mode/tube/Status?detail=False')
-    return 'Hello World!',res.text
+    return 'Server Index'
 
 if __name__ == '__main__':
     app.run()
