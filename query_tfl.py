@@ -2,14 +2,47 @@ import requests
 import time
 import atexit
 import logging
+import json
+import sms_out
 
 from apscheduler.schedulers.background import BackgroundScheduler
 from apscheduler.triggers.interval import IntervalTrigger
+from db import db_obj
 
 class query_tfl_obj():
     query_rate = 10
     last_query_time = time.time()
     logging.basicConfig()
+    db_obj = db_obj()
+    sms_out_obj = sms_out.sms_out_obj()
+
+    #NEED TO SPLIT THIS FUNCTION UP INTO SUB FUNCTIONS
+    def parse_tfl_json(self, tfl_json) :
+        tfl_py_obj = json.dumps(tfl_json)
+
+        for line_obj in tfl_py_obj :
+            statuses = line_obj["lineStatuses"]
+            line_id = line_obj["id"]
+            severity_text = statuses["statusSeverity"]
+
+            line_db_entry = db_obj.db_store[line_id]
+            severity_text_stored = line_db_entry["statusText"]
+
+            if severity_text != severity_text_stored :
+                db_obj.db_store[line_id] = severity_text
+                sms_text = "Update on "+ line_id + " : "+severity_text
+                phone_nums = line_db_entry["nums"]
+                self.sms_out_obj.send_sms(sms_text, phone_nums)
+
+    def query_tfl(self) :
+        res = requests.get('https://api.tfl.gov.uk/Line/Mode/tube/Status?detail=False')
+        print res.json()
+        self.parse_tfl_json(res)
+
+        time_now = time.time()
+        time_delta = time.time() - self.last_query_time
+        print 'Time Delta = ' + str(time_delta)
+        self.last_query_time = time_now
 
     def start_tfl_query_loop(self) :
         scheduler = BackgroundScheduler()
@@ -23,25 +56,5 @@ class query_tfl_obj():
         # Shut down the scheduler when exiting the app
         atexit.register(lambda: scheduler.shutdown())
 
-    def query_tfl(self) :
-        res = requests.get('https://api.tfl.gov.uk/Line/Mode/tube/Status?detail=False')
-        print res.json()
-
-        time_now = time.time()
-        time_delta = time.time() - self.last_query_time
-        print 'Time Delta = ' + str(time_delta)
-        self.last_query_time = time_now
-
     def main(self) :
         self.start_tfl_query_loop()
-'''
-statuses = json[i]["lineStatuses"]
-line_id = json[i]["id"]
-severity_text = statuses["statusSeverity"]
-line_db_entry = db_obj[line_id]
-severity_text_stored = line_db_entry["statusText"]
-if(severity_text != severity_text_stored) :
-    dbObj[line_id] = severity_text
-    phone_nums = line_db_entry["nums"]
-    sms_out.sms_out(statusText,phone_nums)
-'''
