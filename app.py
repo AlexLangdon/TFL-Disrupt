@@ -17,20 +17,20 @@ ai = apiai.ApiAI(API_AI_CLIENT_TOKEN)
 
 @app.route('/', methods=['GET','POST'])
 def handle_POST():
-    print "Post req"
-    # req_json = json.loads(request.get_data())
+    # print "Post req"
+    req_json = json.loads(request.get_data())
+    print req_json
     # param = req_json["result"]["parameters"]
-    # print req_json
 
     resp = twilio.twiml.Response()
     resp.message("Flask server has received a message")
-    return str(resp)
 
     # aiTest = ai.text_request()
     # aiTest.query = "Get status of victoria"
     # k = aiTest.getresponse()
     # print k.read()
-    # return json.dumps({"out":"Bello"})
+
+    # return str(resp)
 
 if __name__ == '__main__':
     app.run()
