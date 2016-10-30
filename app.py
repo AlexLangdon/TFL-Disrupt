@@ -3,6 +3,7 @@ from flask import Flask, request
 from query_tfl import query_tfl_obj
 import json
 import apiai
+import sys
 
 app = Flask(__name__)
 query_obj = query_tfl_obj()
@@ -17,9 +18,9 @@ ai = apiai.ApiAI(API_AI_CLIENT_TOKEN)
 
 @app.route('/', methods=['GET','POST'])
 def handle_POST():
-    # print "Post req"
-    req_json = json.loads(request.get_data())
+    req_json = request.json
     print req_json
+    sys.stdout.flush()
     # param = req_json["result"]["parameters"]
 
     resp = twilio.twiml.Response()
@@ -30,7 +31,7 @@ def handle_POST():
     # k = aiTest.getresponse()
     # print k.read()
 
-    # return str(resp)
+    return str(resp)
 
 if __name__ == '__main__':
     app.run()
