@@ -12,6 +12,10 @@ API_AI_CLIENT_TOKEN = "4eb996e7858f44bcb2c6242d112e8517"
 ai = apiai.ApiAI(API_AI_CLIENT_TOKEN)
 
 @app.route('/', method=['POST'])
+def handle_GET():
+    return "Default response."
+
+@app.route('/', method=['POST'])
 def handle_POST():
     req_json = json.loads(request.get_data())
     # param = req_json["result"]["parameters"]
