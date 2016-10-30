@@ -11,13 +11,14 @@ query_obj = query_tfl_obj()
 API_AI_CLIENT_TOKEN = "4eb996e7858f44bcb2c6242d112e8517"
 ai = apiai.ApiAI(API_AI_CLIENT_TOKEN)
 
-@app.route('/', methods=['GET'])
-def handle_GET():
-    return "Default response."
+# @app.route('/', methods=['GET'])
+# def handle_GET():
+#     return "Default response."
 
-@app.route('/', methods=['POST'])
+@app.route('/', methods=['GET','POST'])
 def handle_POST():
-    req_json = json.loads(request.get_data())
+    print "Post req"
+    # req_json = json.loads(request.get_data())
     # param = req_json["result"]["parameters"]
     # print req_json
 
@@ -25,12 +26,11 @@ def handle_POST():
     resp.message("Flask server has received a message")
     return str(resp)
 
-    #
     # aiTest = ai.text_request()
     # aiTest.query = "Get status of victoria"
     # k = aiTest.getresponse()
     # print k.read()
-    # return "Beloo"
+    # return json.dumps({"out":"Bello"})
 
 if __name__ == '__main__':
     app.run()
