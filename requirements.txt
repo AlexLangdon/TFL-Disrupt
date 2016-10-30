@@ -1,4 +1,4 @@
-api.ai==0.1.0
+apiai==1.0.2
 cffi==1.7.0
 click==6.6
 cryptography==1.5
