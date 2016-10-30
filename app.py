@@ -18,7 +18,7 @@ ai = apiai.ApiAI(API_AI_CLIENT_TOKEN)
 
 @app.route('/', methods=['GET','POST'])
 def handle_POST():
-    req_json = request.json
+    req_json = request.data
     print req_json
     sys.stdout.flush()
     # param = req_json["result"]["parameters"]
