@@ -1,9 +1,9 @@
 from twilio.rest import TwilioRestClient
+import twillio_tokens
 
 class sms_out_obj():
-    account_sid = "AC9df38f3b52ce616f29a661463ed82f91" # Your Account SID from www.twilio.com/console
-    auth_token  = "ca57daf1e7bb1b4a2dfba2b9b936e6c2"  # Your Auth Token from www.twilio.com/console
-    client = TwilioRestClient(account_sid, auth_token)
+    client = TwilioRestClient(twillio_tokens.account_sid,
+                              twillio_tokens.auth_token)
 
     def send_sms(self, text, nums):
         for x in xrange(len(nums)) :
@@ -15,6 +15,6 @@ class sms_out_obj():
         # Input is a text string to be sent to an array of numbers
 
     # Test array of phone numbers
-    phone_numbers = ["+447805081856","+447480132452","+447515067000","447739586816","+447809358784"]
+    #phone_numbers = ["+447805081856","+447480132452","+447515067000","447739586816","+447809358784"]
     # Pass array and message to function
     #send_sms("Hello from BrumHack", phone_numbers)

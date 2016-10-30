@@ -12,7 +12,6 @@ from db import db_obj
 class query_tfl_obj():
     query_rate = 10
     last_query_time = time.time()
-    logging.basicConfig()
     db_obj = db_obj()
     sms_out_obj = sms_out.sms_out_obj()
 
@@ -56,5 +55,7 @@ class query_tfl_obj():
         # Shut down the scheduler when exiting the app
         atexit.register(lambda: scheduler.shutdown())
 
-    def main(self) :
+    def main(self, debug = True) :
+        if not debug :
+            logging.basicConfig()
         self.start_tfl_query_loop()
