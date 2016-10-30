@@ -5,7 +5,7 @@ class db_obj() :
     db_store = {
                     "bakerloo": {"status_text": "N/A", "nums": []},
                     "central": {"status_text": "N/A", "nums": []},
-                    "circle": {"status_text": "N/A", "nums": [temp_nums[4]]},
+                    "circle": {"status_text": "N/A", "nums": [temp_nums[4],temp_nums[0]]},
 
                     "district": {"status_text": "N/A", "nums": []},
                     "hammersmith-city": {"status_text": "N/A", "nums": []},

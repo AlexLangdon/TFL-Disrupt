@@ -18,12 +18,12 @@ class query_tfl_obj():
     def send_status(self,phone_num,line_id) :
         line_db_entry = db_obj.db_store[line_id]
         severity_text_stored = line_db_entry["status_text"]
-        self.sms_out_obj.send_sms(severity_text_stored, [phone_num])
+        self.sms_out_obj.send_sms(line_id + " line status : " +severity_text_stored, [phone_num])
 
     def get_status(self, line_id):
         line_db_entry = db_obj.db_store[line_id]
         severity_text_stored = line_db_entry["status_text"]
-        return severity_text_stored
+        return line_id + " line status : " +severity_text_stored
 
     #NEED TO SPLIT THIS FUNCTION UP INTO SUB FUNCTIONS
     def parse_tfl_json(self, tfl_json) :

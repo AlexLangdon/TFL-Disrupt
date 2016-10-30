@@ -24,6 +24,7 @@ def handle_POST():
 
     result = req_json["result"]
     intent = result["metadata"]["intentName"]
+    text = "Please try another operation."
 
     if intent == "Registration" :
         print "Registering"
@@ -31,6 +32,7 @@ def handle_POST():
         phone_num = result["parameters"]["phone-number"]
         query_obj.db_obj.add_num("circle",phone_num)
         query_obj.send_status(phone_num,"circle")
+        text = "You are now registered"
 
     if intent == "Set alert" :
         print "Seting alert"
@@ -39,20 +41,21 @@ def handle_POST():
         line = result["parameters"]["line"]
         query_obj.db_obj.add_num(line,phone_num)
         query_obj.send_status(phone_num,line)
+        text = "Alert set for "+line
 
     if intent == "Check for disruptions" :
         print "Checking for disruptions"
         line = result["parameters"]["line"]
         text = query_obj.get_status(line)
 
-        resp_obj = {}
-        resp_obj['speech'] = text
-        resp_obj['displayText'] = text
-        resp_obj['data'] = {}
-        resp_obj['contextOut'] = []
-        resp_obj['source'] = 'Me'
-        json_out = json.dumps(resp_obj)
-        return Response(response=json_out, status=200, mimetype="application/json")
+    resp_obj = {}
+    resp_obj['speech'] = text
+    resp_obj['displayText'] = text
+    resp_obj['data'] = {}
+    resp_obj['contextOut'] = []
+    resp_obj['source'] = 'Me'
+    json_out = json.dumps(resp_obj)
+    return Response(response=json_out, status=200, mimetype="application/json")
 
     # resp = twilio.twiml.Response()
     # resp.message("Flask server has received a message")
