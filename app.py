@@ -11,11 +11,11 @@ query_obj = query_tfl_obj()
 API_AI_CLIENT_TOKEN = "4eb996e7858f44bcb2c6242d112e8517"
 ai = apiai.ApiAI(API_AI_CLIENT_TOKEN)
 
-@app.route('/', method=['POST'])
+@app.route('/', methods=['GET'])
 def handle_GET():
     return "Default response."
 
-@app.route('/', method=['POST'])
+@app.route('/', methods=['POST'])
 def handle_POST():
     req_json = json.loads(request.get_data())
     # param = req_json["result"]["parameters"]
@@ -31,7 +31,6 @@ def handle_POST():
     # k = aiTest.getresponse()
     # print k.read()
     # return "Beloo"
-
 
 if __name__ == '__main__':
     app.run()
